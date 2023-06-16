@@ -1,22 +1,28 @@
 #!/bin/bash
 
+service mariadb start
 MYSQL_DB_NAME="testDB"
 MYSQL_DB_PASSWORD="bla"
 MYSQL_DB_USER="touteiro"
 MYSQL_DB_ROOT_PASSWORD="bla"
 
-service mysql start
+mariadb -u root -p << EOS
 
-echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DB_NAME ;" > db1.sql
-echo "CREATE USER IF NOT EXISTS '$MYSQL_DB_USER'@'%' IDENTIFIED BY '$MYSQL_DB_PASSWORD' ;" >> db1.sql
-echo "GRANT ALL PRIVILEGES ON $MYSQL_DB_NAME.* to '$MYSQL_DB_USER'@'%' ;" >> db1.sql
-echo " ALTER USER root@localhost IDENTIFIED BY '$MYSQL_DB_ROOT_PASSWORD' ;" >> db1.sql
-echo "FLUSH PRIVILEGES ;" >> db1.sql
+\n ;
+CREATE DATABASE IF NOT EXISTS $MYSQL_DB_NAME ;
+CREATE USER IF NOT EXISTS '$MYSQL_DB_USER'@'%' IDENTIFIED BY '$MYSQL_DB_PASSWORD' ;
+GRANT ALL PRIVILEGES ON $MYSQL_DB_NAME.* to '$MYSQL_DB_USER'@'%' ;
+ALTER USER root@localhost IDENTIFIED BY '$MYSQL_DB_ROOT_PASSWORD' ;
+FLUSH PRIVILEGES ;
+EOS
+# echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DB_NAME ;" > db1.sql
+# echo "CREATE USER IF NOT EXISTS '$MYSQL_DB_USER'@'%' IDENTIFIED BY '$MYSQL_DB_PASSWORD' ;" >> db1.sql
+# echo "GRANT ALL PRIVILEGES ON $MYSQL_DB_NAME.* to '$MYSQL_DB_USER'@'%' ;" >> db1.sql
+# echo " ALTER USER root@localhost IDENTIFIED BY '$MYSQL_DB_ROOT_PASSWORD' ;" >> db1.sql
+# echo "FLUSH PRIVILEGES ;" >> db1.sql
+# db1.sql < mariadb
 
-db1.sql < mysql
-
-mysqld
-
+service mariadb status
 # mysql -sfu root << EOS
 # -- set root password
 # UPDATE mysql.user SET Password=PASSWORD('bla') WHERE User='root';
