@@ -1,3 +1,3 @@
 #!/bin/bash
 
-service sql start;
+service mysql start
