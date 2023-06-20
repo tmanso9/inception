@@ -16,9 +16,9 @@ RUN openssl req \
 -out /etc/nginx/ssl/touteiro.crt \
 -keyout /etc/nginx/ssl/touteiro.key 
 
-COPY tools/index.html /var/www/html/index.html
-
 COPY conf/nginx.conf /etc/nginx/conf.d/
+
+RUN mkdir -p /run/nginx
 
 EXPOSE 443
 
