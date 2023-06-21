@@ -10,6 +10,8 @@ down:
 
 clean: down
 	@docker system prune -fa
+	@sudo rm -rf /home/touteiro/data/wordpress/*
+	@sudo rm -rf /home/touteiro/data/mysql/*
 
 re: clean all
 

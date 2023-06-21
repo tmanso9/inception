@@ -14,8 +14,8 @@ mysql_secure_installation << _EOS_
 
 Y
 Y
-rootbla
-rootbla
+$MYSQL_DB_ROOT_PASSWORD
+$MYSQL_DB_ROOT_PASSWORD
 Y
 n
 Y
