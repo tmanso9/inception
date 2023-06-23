@@ -1,12 +1,21 @@
 NAME = inception
+SHELL = /bin/bash
 
 inception: all
 
-all: env
+all:
 	@docker compose -f ./srcs/docker-compose.yml up -d --build
 
 env:
-	@if [ ! -f srcs/.env ]; then cp /home/touteiro/data/.env srcs/.env ; fi;
+	@if [ ! -f srcs/.env ] ; then\
+		read -p "Env file path: " ENV_FILE; \
+		if [ -a $$ENV_FILE ] ; then\
+			cp $$ENV_FILE srcs/.env ;\
+		else\
+			echo "Wrong env file path"; \
+			exit 42; \
+		fi; \
+	fi;
 	@mkdir -p /home/touteiro/data/wordpress/
 	@mkdir -p /home/touteiro/data/mysql/
 
@@ -17,9 +26,14 @@ clean: down
 	@docker system prune -fa
 	@sudo rm -rf /home/touteiro/data/wordpress/*
 	@sudo rm -rf /home/touteiro/data/mysql/*
-	@rm -rf srcs/.env
+
+fclean: clean
+	@sudo rm -rf srcs/.env
+	@docker volume ls -q > test
+	@if [ -s test ]; then docker volume rm $$(docker volume ls -q); fi;
+	@sudo rm -rf test
 
 re: clean all
 
-.PHONY: all down clean re
+.PHONY: all down clean fclean re env
 
