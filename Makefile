@@ -4,7 +4,7 @@ SHELL = /bin/bash
 inception: all
 
 all:
-	@docker compose -f ./srcs/docker-compose.yml up -d --build
+	@docker compose -f ./srcs/docker-compose.yml up --build
 
 env:
 	@if [ ! -f srcs/.env ] ; then\
@@ -26,12 +26,12 @@ clean: down
 	@docker system prune -fa
 	@sudo rm -rf /home/touteiro/data/wordpress/*
 	@sudo rm -rf /home/touteiro/data/mysql/*
-
-fclean: clean
-	@sudo rm -rf srcs/.env
 	@docker volume ls -q > test
 	@if [ -s test ]; then docker volume rm $$(docker volume ls -q); fi;
 	@sudo rm -rf test
+
+fclean: clean
+	@sudo rm -rf srcs/.env
 
 re: clean all
 
