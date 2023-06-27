@@ -9,7 +9,7 @@ services:
       - wordpress_data:/var/www/html
     restart: always
     networks:
-      - network
+      - inception
 
   wordpress:
     container_name: wordpress
@@ -22,7 +22,7 @@ services:
       - wordpress_data:/var/www/html
     restart: always
     networks:
-      - network
+      - inception
 
   mariadb:
     container_name: mariadb
@@ -33,10 +33,10 @@ services:
       - mariadb_data:/var/lib/mysql
     restart: always
     networks:
-      - network
+      - inception
 
 networks:
-  network:
+  inception:
     driver: bridge
 
 volumes:
