@@ -1,10 +1,17 @@
 NAME = inception
 SHELL = /bin/bash
+COMPOSE = ./srcs/docker-compose.yml
 
 inception: all
 
 all:
-	@docker compose -f ./srcs/docker-compose.yml up --build
+	@docker compose -f $(COMPOSE) up -d --build
+
+bonus: COMPOSE = ./srcs/docker-compose-bonus.yml
+bonus: bbuilt all
+
+bbuilt:
+	@touch .bbuilt
 
 env:
 	@if [ ! -f srcs/.env ] ; then\
@@ -20,7 +27,12 @@ env:
 	@mkdir -p /home/touteiro/data/mysql/
 
 down:
-	@docker compose -f ./srcs/docker-compose.yml down
+	@if [ ! -f .bbuilt ] ; then\
+		docker compose -f ./srcs/docker-compose.yml down; \
+	else \
+		docker compose -f ./srcs/docker-compose-bonus.yml down; \
+		rm .bbuilt; \
+	fi;
 
 clean: down
 	@docker system prune -fa
@@ -35,5 +47,4 @@ fclean: clean
 
 re: clean all
 
-.PHONY: all down clean fclean re env
-
+.PHONY: all down clean fclean re env bonus

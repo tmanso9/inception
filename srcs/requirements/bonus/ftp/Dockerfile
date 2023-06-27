@@ -1,6 +1,6 @@
 FROM debian:bullseye
 
-RUN apt-get update
+RUN apt update && apt upgrade
 
 RUN apt-get install vsftpd -y
 
@@ -12,17 +12,14 @@ RUN touch /var/log/vsftpd.log
 
 RUN chown -R vsftpd:vsftpd /var/log/vsftpd.log /var/www/html
 
-EXPOSE 9876
+EXPOSE 20 21
 
-# COPY tools/launch_ftp.sh .
+COPY tools/launch_ftp.sh .
+
 COPY tools/vsftpd.conf /etc/vsftpd.conf
 
-RUN mkdir /var/www/html/images
+RUN chown -R vsftpd:vsftpd /etc/vsftpd.conf
 
-COPY ./images /var/www/images/
+USER vsftpd
 
-# USER vsftpd
-
-# ENTRYPOINT [ "./launch_ftp.sh" ]
-
-CMD ["vsftpd", "/etc/vsftpd.conf"]
+CMD [ "./launch_ftp.sh" ]

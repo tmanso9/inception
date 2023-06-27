@@ -1,6 +1,6 @@
 FROM debian:bullseye
 
-RUN apt-get update
+RUN apt update && apt upgrade
 
 RUN adduser redis && mkdir -p /run/redis
 

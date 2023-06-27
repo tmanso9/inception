@@ -2,18 +2,21 @@ version: '3'
 services:
   nginx:
     container_name: nginx
-    build: ./requirements/nginx
+    build: ./requirements/bonus/nginx
     ports:
       - '443:443'
     volumes:
       - wordpress_data:/var/www/html
+    depends_on:
+      - redis
+      - ftp
     restart: always
     networks:
       - inception
 
   wordpress:
     container_name: wordpress
-    build: ./requirements/wordpress
+    build: ./requirements/bonus/wordpress
     depends_on:
       - mariadb
     env_file:
@@ -26,7 +29,7 @@ services:
 
   mariadb:
     container_name: mariadb
-    build: ./requirements/mariadb
+    build: ./requirements/bonus/mariadb
     env_file:
       - .env
     volumes:
@@ -34,6 +37,34 @@ services:
     restart: always
     ports:
       - 3306:3306
+    networks:
+      - inception
+  
+  redis:
+    container_name: redis
+    build: ./requirements/bonus/redis
+    depends_on:
+      - wordpress
+    ports:
+      - '6379:6379'
+    volumes:
+      - wordpress_data:/var/www/html
+    restart: always
+    networks:
+      - inception
+  
+  ftp:
+    container_name: ftp
+    build: ./requirements/bonus/ftp
+    depends_on:
+      - wordpress
+    ports:
+      - '9876-9976:9876-9976'
+      - '20:20'
+      - '21:21'
+    volumes:
+      - wordpress_data:/var/www/html
+    restart: always
     networks:
       - inception
 
