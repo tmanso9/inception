@@ -1,10 +1,2 @@
-static-inception/.vscode
-static-inception/node_modules
-static-inception/public
-static-inception/src
-static-inception/index.html
-static-inception/package-lock.json
-static-inception/package.json
-static-inception/README.md
-static-inception/vite.config.js
+tools/static-inception/dist
 

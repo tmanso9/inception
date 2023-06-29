@@ -1,9 +1,17 @@
 FROM debian:bullseye
 
-RUN mkdir -p /var/www/static-inception
+RUN apt update && apt upgrade
 
-COPY ./static-inception/dist/* /var/www/static-inception/
+RUN apt install -y curl gpg
 
-COPY ./tools/launch_vue.sh .
+RUN mkdir -p static-inception
 
-CMD ["./launch_vue.sh"]
+RUN mkdir -p /var/www/bonus
+
+COPY tools/setup.sh .
+
+COPY tools/static-inception/ /static-inception/
+
+WORKDIR /static-inception
+
+CMD [ "./../setup.sh" ]

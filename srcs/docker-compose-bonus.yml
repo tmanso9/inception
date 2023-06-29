@@ -7,9 +7,11 @@ services:
       - '443:443'
     volumes:
       - wordpress_data:/var/www/html
+      - vue_data:/var/www/bonus
     depends_on:
       - redis
       - ftp
+      - vue
     restart: always
     networks:
       - inception
@@ -35,8 +37,6 @@ services:
     volumes:
       - mariadb_data:/var/lib/mysql
     restart: always
-    ports:
-      - 3306:3306
     networks:
       - inception
   
@@ -47,6 +47,15 @@ services:
       - wordpress
     volumes:
       - wordpress_data:/var/www/html
+    restart: always
+    networks:
+      - inception
+  
+  vue:
+    container_name: vue
+    build: ./requirements/bonus/vue
+    volumes:
+      - vue_data:/var/www/bonus
     restart: always
     networks:
       - inception
@@ -82,4 +91,10 @@ volumes:
     driver_opts:
       type: none
       device: /home/touteiro/data/mysql
+      o: bind
+  vue_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/touteiro/data/vue
       o: bind

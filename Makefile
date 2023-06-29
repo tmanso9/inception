@@ -25,6 +25,7 @@ env:
 	fi;
 	@mkdir -p /home/touteiro/data/wordpress/
 	@mkdir -p /home/touteiro/data/mysql/
+	@mkdir -p /home/touteiro/data/vue/
 
 down:
 	@if [ ! -f .bbuilt ] ; then\
@@ -38,6 +39,7 @@ clean: down
 	@docker system prune -fa
 	@sudo rm -rf /home/touteiro/data/wordpress/*
 	@sudo rm -rf /home/touteiro/data/mysql/*
+	@sudo rm -rf /home/touteiro/data/vue/*
 	@docker volume ls -q > test
 	@if [ -s test ]; then docker volume rm $$(docker volume ls -q); fi;
 	@sudo rm -rf test

@@ -18,8 +18,6 @@ RUN openssl req \
 
 RUN mkdir -p /var/www/bonus
 
-COPY tools/* /var/www/bonus
-
 COPY conf/nginx.conf /etc/nginx/sites-available/touteiro.42.fr.conf
 COPY conf/bonus.conf /etc/nginx/sites-available/bonus.touteiro.42.fr.conf
 
