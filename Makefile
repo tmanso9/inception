@@ -5,7 +5,7 @@ COMPOSE = ./srcs/docker-compose.yml
 inception: all
 
 all:
-	@docker compose -f $(COMPOSE) up -d --build
+	@sudo docker compose -f $(COMPOSE) up -d --build
 
 bonus: COMPOSE = ./srcs/docker-compose-bonus.yml
 bonus: bbuilt all
@@ -28,20 +28,22 @@ env:
 	@mkdir -p /home/touteiro/data/vue/
 
 down:
-	@if [ ! -f .bbuilt ] ; then\
-		docker compose -f ./srcs/docker-compose.yml down; \
-	else \
-		docker compose -f ./srcs/docker-compose-bonus.yml down; \
-		rm .bbuilt; \
+	@if [ -f srcs/.env ] ; then\
+		if [ ! -f .bbuilt ] ; then\
+			sudo docker compose -f ./srcs/docker-compose.yml down; \
+		else \
+			sudo docker compose -f ./srcs/docker-compose-bonus.yml down; \
+			rm .bbuilt; \
+		fi; \
 	fi;
 
 clean: down
-	@docker system prune -fa
+	@sudo docker system prune -fa
 	@sudo rm -rf /home/touteiro/data/wordpress/*
 	@sudo rm -rf /home/touteiro/data/mysql/*
 	@sudo rm -rf /home/touteiro/data/vue/*
-	@docker volume ls -q > test
-	@if [ -s test ]; then docker volume rm $$(docker volume ls -q); fi;
+	@sudo docker volume ls -q > test
+	@if [ -s test ]; then sudo docker volume rm $$(sudo docker volume ls -q); fi;
 	@sudo rm -rf test
 
 fclean: clean
