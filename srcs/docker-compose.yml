@@ -44,11 +44,11 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/touteiro/data/wordpress
+      device: ../data/wordpress
       o: bind
   mariadb_data:
     driver: local
     driver_opts:
       type: none
-      device: /home/touteiro/data/mysql
+      device: ../data/mysql
       o: bind

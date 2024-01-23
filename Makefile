@@ -5,7 +5,7 @@ COMPOSE = ./srcs/docker-compose.yml
 inception: all
 
 all:
-	@sudo docker compose -f $(COMPOSE) up -d --build
+	@docker compose -f $(COMPOSE) up -d --build
 
 bonus: COMPOSE = ./srcs/docker-compose-bonus.yml
 bonus: bbuilt all
@@ -39,9 +39,9 @@ down:
 
 clean: down
 	@sudo docker system prune -fa
-	@sudo rm -rf /home/touteiro/data/wordpress/*
-	@sudo rm -rf /home/touteiro/data/mysql/*
-	@sudo rm -rf /home/touteiro/data/vue/*
+	@sudo rm -rf ./data/wordpress/*
+	@sudo rm -rf ./data/mysql/*
+	@sudo rm -rf ./data/vue/*
 	@sudo docker volume ls -q > test
 	@if [ -s test ]; then sudo docker volume rm $$(sudo docker volume ls -q); fi;
 	@sudo rm -rf test
