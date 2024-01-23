@@ -1,0 +1,3 @@
+- **Description**: Docker application running WordPress, MySQL, and Nginx on separate containers.
+- **Language**: Docker
+- **How to run**: run make or make bonus to compile, add touteiro.42.fr to /etc/nano/hosts, go to https://touteiro.42.fr
